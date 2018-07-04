@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<configuration>
+
+    <property name="LOG_HOME" value="ynuosoft_log" />
+    <property name="APP_NAME" value="redis_clients_monitor" />
+
+    <appender name="FILE_STATS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <File>/${LOG_HOME}/${APP_NAME}/${APP_NAME}_rcs.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>/${LOG_HOME}/${APP_NAME}/${APP_NAME}_rcs.log.%d{dd}</FileNamePattern>
+            <MaxHistory>2</MaxHistory>
+        </rollingPolicy>
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+        <layout class="redis.clients.tests.logger.CustomerPatternLayout">
+            <pattern>{"app_ip":"%ip","app_host":"%host","app_name":"${APP_NAME}",%msg}%n</pattern>
+        </layout>
+    </appender>
+
+
+    <logger name="redis.clients.jedis" level="INFO">
+        <appender-ref ref="FILE_STATS" />
+    </logger>
+
+</configuration>
